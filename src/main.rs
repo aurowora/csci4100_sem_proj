@@ -6,7 +6,7 @@ mod avl;
 pub fn main() {
     let mut leader = Leaderboard::new();
 
-    // from the processor's example
+    // from the prof's example
     leader.insert("A", 150);
     leader.insert("B", 200);
     leader.insert("C", 120);
