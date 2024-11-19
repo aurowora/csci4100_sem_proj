@@ -47,6 +47,13 @@ impl Leaderboard {
             }
         }
     }
+    
+    /// Replace a specific score with a revised score.
+    pub fn update_score(&mut self, player_id: impl AsRef<str>, old_score: u64, new_score: u64) {
+        let ply_id = player_id.as_ref();
+        self.delete_player_score(ply_id, old_score);
+        self.insert(ply_id, new_score);
+    }
 
     pub fn top_n_players(&self, n: usize) -> Vec<(String, u64)> {
         if let Some(ref inner) = self.root {
