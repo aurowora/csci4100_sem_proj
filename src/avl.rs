@@ -272,7 +272,7 @@ impl AVLNode {
 
     // return TRUE to request deletion from the caller
     #[must_use = "If this function returns true, it is the caller's responsibility to delete the node delete() was called on"]
-    pub fn delete_player(&mut self, player_id: impl AsRef<str>) -> bool {
+    fn delete_player(&mut self, player_id: impl AsRef<str>) -> bool {
         let ply_id = player_id.as_ref();
 
         // we need to do a post order traversal here because it is nice for
@@ -307,7 +307,7 @@ impl AVLNode {
 
     // return TRUE to request deletion from the caller
     #[must_use = "If this function returns true, it is the caller's responsibility to delete the node delete() was called on"]
-    pub fn delete_player_score(&mut self, player_id: impl AsRef<str>, score: u64) -> bool {
+    fn delete_player_score(&mut self, player_id: impl AsRef<str>, score: u64) -> bool {
         if self.score == score {
             // Delete the player identified by the caller
             let ply_id = player_id.as_ref();
@@ -338,7 +338,7 @@ impl AVLNode {
 
     // return TRUE to request deletion from the caller
     #[must_use = "If this function returns true, it is the caller's responsibility to delete the node delete() was called on"]
-    pub fn delete(&mut self) -> bool {
+    fn delete(&mut self) -> bool {
         if self.left.is_none() && self.right.is_none() {
             // case 1: just delete me
             return true;
@@ -374,7 +374,7 @@ impl AVLNode {
         false
     }
 
-    pub fn top_n_players(&self, n: usize) -> Vec<(String, u64)> {
+    fn top_n_players(&self, n: usize) -> Vec<(String, u64)> {
         let mut results = Vec::with_capacity(n);
 
         if let Some(ref right) = self.right {
@@ -405,7 +405,7 @@ impl AVLNode {
         results
     }
 
-    pub fn rank_of(&self, player: impl AsRef<str>, score: u64, num_better: usize) -> Option<usize> {
+    fn rank_of(&self, player: impl AsRef<str>, score: u64, num_better: usize) -> Option<usize> {
         // nodes can potentially store more than one player inside, but because
         // we assign the same rank number to ties, we can ignore this fact in
         // this method.
