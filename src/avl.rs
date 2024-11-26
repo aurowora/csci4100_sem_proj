@@ -382,20 +382,24 @@ impl AVLNode {
         }
 
         // anything left for us?
-        let mut rem = n - results.len();
-        if rem < 1 {
-            return results; // no :(
+        let mut rem = n.checked_sub(results.len());
+        if rem.is_none() || rem.unwrap() == 0 {
+            return results;
         }
 
         // get up to `rem` scores from the current node
         results.extend(self.player_id.iter().enumerate()
-            .take_while(|(i, v)| *i < rem)
+            .take_while(|(i, v)| *i < rem.unwrap())
             .map(|(_, v)| (v.clone(), self.score)));
         
         // if we still need more elements, try the left child
-        rem = n - results.len();
+        rem = n.checked_sub(results.len());
+        if rem.is_none() || rem.unwrap() == 0 {
+            return results;
+        }
+        
         if let Some(ref left) = self.left {
-            results.extend(left.top_n_players(rem));
+            results.extend(left.top_n_players(rem.unwrap()));
         }
 
         results
